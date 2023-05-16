@@ -1,20 +1,8 @@
 import os
 import shutil
-from letterboxdpy import list, movie
+from letterboxdpy import list
 from thefuzz import process, fuzz
 from colorama import Fore
-
-def isfilm(nom):
-    top = list.List("runi18","Top 100",)
-    A = top.movies
-    top100 = []
-    topinfo = []
-    for film in A:
-        top100.append(film[0])
-        topinfo.append(film)
-    for film in topinfo:
-        return process.extract(nom, top100)
-
 
 def matchfilm(src, dst,user,liste):
     top = list.List(user, liste)
@@ -44,7 +32,5 @@ def matchfilm(src, dst,user,liste):
                         print(Fore.GREEN+film[0:15],"Transfered",match)
                     except:
                         None
-
-
         else:
             print(Fore.RED+film[0:15],"doesnt match",match)
