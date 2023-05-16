@@ -1,0 +1,50 @@
+import os
+import shutil
+from letterboxdpy import list, movie
+from thefuzz import process, fuzz
+from colorama import Fore
+
+def isfilm(nom):
+    top = list.List("runi18","Top 100",)
+    A = top.movies
+    top100 = []
+    topinfo = []
+    for film in A:
+        top100.append(film[0])
+        topinfo.append(film)
+    for film in topinfo:
+        return process.extract(nom, top100)
+
+
+def matchfilm(src, dst,user,liste):
+    top = list.List(user, liste)
+    A = top.movies
+    top100 = []
+    topinfo = []
+    for film in A:
+        top100.append(film[0])
+        topinfo.append(film)
+    Fi = []
+    for (root, dirs, file) in os.walk(src):
+        for x in file:
+            Fi.append(x)
+
+    for film in Fi:
+        match = process.extract(film, top100, limit=1)
+        if match[0][1] >= 90 :
+            f = ""
+            for root, dirs, files in os.walk(src):
+                for name in files:
+                    if name == film:
+                        f = (os.path.abspath(os.path.join(root, name)))
+
+                    try:
+                        shutil.move(f, dst,)
+
+                        print(Fore.GREEN+film[0:15],"Transfered",match)
+                    except:
+                        None
+
+
+        else:
+            print(Fore.RED+film[0:15],"doesnt match",match)
